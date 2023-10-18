@@ -28,7 +28,7 @@ public class Response {
 
     public Response(){
         this.status = ResponseStatus.FAILURE;
-        this.message = "Default Message";
+        this.message = "Request FAILURE";
     }
 
     public Response(ResponseStatus status, String message){
