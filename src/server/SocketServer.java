@@ -11,14 +11,14 @@ public class SocketServer {
      * The static main method that instantiates the classes setup() and startAcceptingRequest()
      */
     public static void main(String[] args){
-    }
 
-    public startAcceptingRequest(){
+        //public startAcceptingRequest(){
         // To be implemented in further milestones
-    }
+        // }
 
-    public setup(){
+        // public setup(){
         // To be implemented in further milestones
+        //}
     }
 
     /**

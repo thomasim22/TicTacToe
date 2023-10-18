@@ -64,6 +64,20 @@ public class Event {
     }
 
     /**
+     * @return the eventId
+     */
+    public int getEventID(){
+        return eventId;
+    }
+
+    /**
+     * Sets the eventId
+     */
+    public void setEventID(int eventId){
+        this.eventId = eventId;
+    }
+
+    /**
      * @return opponent value
      */
     public String getOpponent() {
@@ -91,13 +105,42 @@ public class Event {
         this.turn = turn;
     }
 
+
     /**
+     * @return move parameter
+     */
+    public int getMove() {
+        return move;
+    }
+
+    /**
+     * Sets the move value
+     */
+    public void setMove(int move) {
+        this.move = move;
+    }
+
+
+    /**
+     * @return status parameter
+     */
+    public EventStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * Sets the status
+     */
+    public void setStatus(EventStatus status) {
+        this.status = status;}
+    /**
+     *
+
      * Overridden
      * @return if the values are equal to each other
      */
-    public boolean equals(Object other) {
-        Event othereventId = (Event) other;
-        return this.eventId.equals(othereventId.eventId) &&
-                this.eventId == othereventId.eventId;
+    public boolean equals(Object other){
+        Event othereventId = (Event)other;
+        return this.eventId == othereventId.eventId;
     }
 }
