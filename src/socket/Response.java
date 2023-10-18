@@ -2,8 +2,8 @@ package socket;
 import java.lang.String;
 
 public class Response {
-    private ResponseStatus status;
-    private String message;
+    public ResponseStatus status;
+    public String message;
 
     public ResponseStatus getStatus() {
         return status;
