@@ -5,13 +5,14 @@ public class SocketServer {
     private int PORT;
 
     public static void main(String[] args){
+    }
 
-        public setup(){
+    public startAcceptingRequest(){
         // To be implemented in further milestones
-        }
-        public startAcceptingRequest(){
+    }
+
+    public setup(){
         // To be implemented in further milestones
-        }
     }
 
     public SocketServer(){

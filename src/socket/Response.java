@@ -2,7 +2,7 @@ package socket;
 import java.lang.String;
 
 /**
- * @author kailisacco
+ * @author  kailisacco
  * @version Response.java v1
  */
 public class Response {
