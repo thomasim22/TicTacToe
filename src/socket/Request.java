@@ -1,6 +1,5 @@
 package socket;
 
-
 public class Request {
 
     /**
@@ -54,7 +53,7 @@ public class Request {
      */
     public Request(){
         this.type = RequestType.REGISTER;
-        this.data = "Register Please";
+        this.data = "";
     }
 
     /**
