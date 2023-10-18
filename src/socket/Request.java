@@ -1,5 +1,4 @@
 package socket;
-import java.lang.String;
 
 public class Request {
 
@@ -37,42 +36,7 @@ public class Request {
 
     public Request(RequestType type, String data){
         this.type = type;
-        switch(type){
-            case LOGIN:
-                this.data = data;
-                break;
-            case UPDATE_PAIRING:
-                this.data = null;
-                break;
-            case SEND_INVITATION:
-                this.data = data;
-                break;
-            case ACCEPT_INVITATION:
-                this.data = data;
-                break;
-            case DECLINE_INVITATION:
-                this.data = data;
-                break;
-            case ACKNOWLEDGE_RESPONSE:
-                this.data = data;
-                break;
-            case REQUEST_MOVE:
-                this.data = null;
-                break;
-            case SEND_MOVE:
-                this.data = data;
-                break;
-            case ABORT_GAME:
-                this.data = null;
-                break;
-            case COMPLETE_GAME:
-                this.data = null;
-                break;
-            default:
-                this.data = "Register Please";
-                break;
+        this.data = data;
         }
-
-    }
 
 }
