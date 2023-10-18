@@ -8,9 +8,17 @@ public class User {
     private boolean online;
 
     public User() {
+        this.username = "User";
+        this.password = "Password";
+        this.displayName = "User";
+        this.online = false;
     }
 
     public User(String username, String password, String displayName, boolean online){
+        this.username = username;
+        this.password = password;
+        this.displayName = displayName;
+        this.online = online;
     }
 
     public String getUsername() {
