@@ -2,7 +2,7 @@ package test;
 import model.Event;
 import model.Event.EventStatus;
 /**
- * @author  thomasim22
+ * @author  kailisacco
  * @version EventTest v1
  */
 public class EventTest {

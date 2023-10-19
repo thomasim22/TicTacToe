@@ -1,7 +1,7 @@
 package test;
 import model.User;
 /**
- * @author  thomasim22
+ * @author  kailisacco
  * @version UserTest v1
  */
 public class UserTest {
