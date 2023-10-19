@@ -14,6 +14,9 @@ public class EventTest {
         testEqualsMethod();
     }
 
+    /**
+     * Tests the default constructor
+     */
     public static void testDefaultConstructor() {
         Event event = new Event();
         System.out.println("Testing Default Constructor:");
@@ -25,6 +28,9 @@ public class EventTest {
         System.out.println("Move: " + event.getMove());
     }
 
+    /**
+     * Tests the Parameterized Constructor
+     */
     public static void testParameterizedConstructor() {
         Event event = new Event(1, "Sender1", "Opponent1", EventStatus.PENDING, "Turn1", 3);
         System.out.println("Testing Parameterized Constructor:");
@@ -36,6 +42,9 @@ public class EventTest {
         System.out.println("Move: " + event.getMove());
     }
 
+    /**
+     * Tests all the getters and setters
+     */
     public static void testGettersAndSetters() {
         Event event = new Event();
         event.setEventID(2);
@@ -54,6 +63,9 @@ public class EventTest {
         System.out.println("Move: " + event.getMove());
     }
 
+    /**
+     * Tests the equals() method
+     */
     public static void testEqualsMethod() {
         Event event1 = new Event(1, "Sender1", "Opponent1", EventStatus.PENDING, "Turn1", 42);
         Event event2 = new Event(1, "Sender2", "Opponent2", EventStatus.COMPLETED, "Turn2", 7);

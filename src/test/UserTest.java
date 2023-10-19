@@ -12,6 +12,9 @@ public class UserTest {
         testEqualsMethod();
     }
 
+    /**
+     * Tests the default constructor
+     */
     private static void testDefaultConstructor() {
         User user = new User();
         System.out.println("Testing Default Constructor:");
@@ -21,6 +24,9 @@ public class UserTest {
         System.out.println("Online: " + !user.isOnline());
     }
 
+    /**
+     * Tests the Parameterized Constructor
+     */
     private static void testParameterizedConstructor() {
         User user = new User("john_doe", "password123", "John Doe", true);
         System.out.println("Testing Parameterized Constructor:");
@@ -29,7 +35,9 @@ public class UserTest {
         System.out.println("Display Name: " + user.getDisplayName().equals("John Doe"));
         System.out.println("Online: " + user.isOnline());
     }
-
+    /**
+     * Tests all the getters and setters
+     */
     private static void testGettersAndSetters() {
         User user = new User();
         user.setUsername("jon_smith");
@@ -43,7 +51,9 @@ public class UserTest {
         System.out.println("Display Name: " + user.getDisplayName().equals("Alice Smith"));
         System.out.println("Online: " + user.isOnline());
     }
-
+    /**
+     * Tests the equals() method
+     */
     private static void testEqualsMethod() {
         User user1 = new User("user1", "password1", "User One", false);
         User user2 = new User("user2", "password2", "User Two", true);
