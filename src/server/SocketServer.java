@@ -7,11 +7,11 @@ public class SocketServer {
     public static void main(String[] args){
     }
 
-    public startAcceptingRequest(){
+    public void startAcceptingRequest(){
         // To be implemented in further milestones
     }
 
-    public setup(){
+    public void setup(){
         // To be implemented in further milestones
     }
 
