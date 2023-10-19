@@ -1,5 +1,6 @@
 package test;
 import socket.Response;
+import socket.GamingResponse;
 import socket.ResponseStatus;
 
 
