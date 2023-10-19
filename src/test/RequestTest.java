@@ -1,7 +1,10 @@
 package test;
 import socket.Request;
 import socket.Response;
-
+/**
+ * @author  thomasim22
+ * @version RequestTest v1
+ */
 public class RequestTest {
     public static void main(String[] args) {
         testDefaultConstructor();

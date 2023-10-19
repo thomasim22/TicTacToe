@@ -1,5 +1,9 @@
 package test;
 import model.User;
+/**
+ * @author  thomasim22
+ * @version UserTest v1
+ */
 public class UserTest {
     public static void main(String[] args) {
         testDefaultConstructor();

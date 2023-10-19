@@ -1,5 +1,8 @@
 package server;
-
+/**
+ * @author  thomasim22
+ * @version SocketServer v1
+ */
 public class SocketServer {
 
     /**

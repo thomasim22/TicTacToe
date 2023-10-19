@@ -2,10 +2,13 @@ package test;
 import socket.Response;
 import socket.GamingResponse;
 import socket.ResponseStatus;
-
+/**
+ * @author  thomasim22
+ * @version ResponseTest v1
+ */
 
 /**
- * A test class for the {@link Response} class.
+ * A test class for the Response class.
  */
 public class ResponseTest {
 

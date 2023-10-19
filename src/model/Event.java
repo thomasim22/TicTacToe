@@ -1,5 +1,11 @@
 package model;
 import java.lang.String;
+
+/**
+ * @author  thomasim22 declaration
+ *          kailisacco implementation
+ * @version Event v1
+ */
 public class Event {
 
     /**

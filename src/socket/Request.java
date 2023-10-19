@@ -1,5 +1,8 @@
 package socket;
-
+/**
+ * @author  thomasim22
+ * @version Request v1
+ */
 public class Request {
 
     /**

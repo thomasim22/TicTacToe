@@ -1,7 +1,10 @@
 package test;
 import model.Event;
 import model.Event.EventStatus;
-
+/**
+ * @author  thomasim22
+ * @version EventTest v1
+ */
 public class EventTest {
 
     public static void main(String[] args) {

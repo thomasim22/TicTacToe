@@ -1,6 +1,9 @@
 package test;
 import server.SocketServer;
-
+/**
+ * @author  thomasim22
+ * @version SocketServerTest v1
+ */
 public class SocketServerTest {
 
     public static void main(String[] args) {
