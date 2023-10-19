@@ -12,11 +12,19 @@ public class SocketServer {
      */
     public static void main(String[] args){
 
+//<<<<<<< kailiLatest
+   // public void startAcceptingRequest(){
+//=======
         //public startAcceptingRequest(){
+//>>>>>>> //master
         // To be implemented in further milestones
         // }
 
+//<<<<<<< kailiLatest
+    //public void setup(){
+//=======
         // public setup(){
+//>>>>>>>// master
         // To be implemented in further milestones
         //}
     }
