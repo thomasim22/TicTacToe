@@ -1,6 +1,6 @@
 package socket;
 import java.util.Random;
-import socket.Response.ResponseStatus.*;
+import socket.ResponseStatus;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**

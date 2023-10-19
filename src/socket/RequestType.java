@@ -1,0 +1,10 @@
+package socket;
+
+/**
+ * An enumeration of the different types
+ */
+public enum RequestType{
+    LOGIN, REGISTER, UPDATE_PAIRING, SEND_INVITATION, ACCEPT_INVITATION,
+    DECLINE_INVITATION, ACKNOWLEDGE_RESPONSE, REQUEST_MOVE, SEND_MOVE,
+    ABORT_GAME, COMPLETE_GAME
+}

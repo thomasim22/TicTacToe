@@ -39,11 +39,6 @@ public class Response {
         this.message = message;
     }
 
-    enum ResponseStatus{
-        SUCCESS,
-        FAILURE
-    }
-
     /**
      *  default constructor for Response class
      */

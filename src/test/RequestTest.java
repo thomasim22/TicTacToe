@@ -1,6 +1,6 @@
 package test;
 import socket.Request;
-import socket.Response;
+import socket.RequestType;
 /**
  * @author  thomasim22
  * @version RequestTest v1
