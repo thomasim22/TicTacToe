@@ -24,23 +24,18 @@ public class Event {
      * @param turn represents the username of the player that made the last move
      * @param move represents an integer storing the last move of the game
      */
-    public int eventId;
-    private String sender;
-    private String opponent;
-    private EventStatus status;
-    private String turn;
-    private int move;
+    int eventId;
+    String sender;
+    String opponent;
+    EventStatus status;
+    String turn;
+    int move;
 
     /**
      * Default constructor for the class
      */
     public Event() {
-        this.eventId = eventId;
-        this.sender = "Sender";
-        this.opponent = "Opponent";
-        this.status = status;
-        this.turn = "Turn";
-        this.move = move;
+
     }
 
     /**
@@ -145,8 +140,13 @@ public class Event {
      * Overridden
      * @return if the values are equal to each other
      */
-    public boolean equals(Object other){
-        Event othereventId = (Event)other;
-        return this.eventId == othereventId.eventId;
+    public boolean equals(Object obj){
+        try {
+            Event other = (Event) obj;
+            return this.eventId == other.getEventID();
+        }
+        catch (ClassCastException e){
+            return false;
+        }
     }
 }

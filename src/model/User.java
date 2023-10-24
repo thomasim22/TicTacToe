@@ -16,10 +16,6 @@ public class User {
      *  default constructor for User() class with generic parameters
      */
     public User() {
-        this.username = "User";
-        this.password = "Password";
-        this.displayName = "User";
-        this.online = false;
     }
 
 
@@ -102,11 +98,16 @@ public class User {
 
 
     /**
-     * @param other     represents another User object and its attributes
+     * @param obj     represents another User object and its attributes
      * @return          returns boolean value after comparing two User object's username attribute
      */
-    public boolean equals(Object other){
-        User newUser = (User)other;
-        return this.username.equals(newUser.username) && this.username == newUser.username;
+    public boolean equals(Object obj){
+        try {
+            User other = (User) obj;
+            return this.username.equals(other.getUsername());
+        }
+        catch (ClassCastException e){
+            return false;
+        }
     }
 }

@@ -6,6 +6,14 @@ import java.lang.String;
  * @version Response.java v1
  */
 public class Response {
+
+    /**
+     * An enumeration of the different statuses
+     */
+    public enum ResponseStatus {
+        SUCCESS, FAILURE
+    }
+
     public ResponseStatus status;
     public String message;
 
@@ -43,8 +51,6 @@ public class Response {
      *  default constructor for Response class
      */
     public Response(){
-        this.status = ResponseStatus.FAILURE;
-        this.message = "Request FAILURE";
     }
 
     /**

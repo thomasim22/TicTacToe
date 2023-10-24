@@ -1,7 +1,4 @@
 package socket;
-import java.util.Random;
-import socket.ResponseStatus;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author  thomasim22 declaration
@@ -9,8 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * @version GamingResponse v1
  */
 public class GamingResponse extends Response{
-    private int move;
-    private boolean active;
+    int move;
+    boolean active;
 
     /**
      * @param status    enumerated class type object, FAILURE or SUCCESS value. Attribute of Parent Class Response
@@ -29,7 +26,7 @@ public class GamingResponse extends Response{
      *  accounts for super constructor call of failure status and a failure message.
      */
     public GamingResponse(){
-        this(ResponseStatus.FAILURE, "Response FAILED", ThreadLocalRandom.current().nextInt(0,9), false);
+        super();
     }
 
     /**

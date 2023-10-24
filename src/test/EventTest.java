@@ -1,78 +1,74 @@
 package test;
+
 import model.Event;
-import model.Event.EventStatus;
+
 /**
- * @author  kailisacco
- * @version EventTest v1
+ * Tests for Event
+ *
+ * @author kailisacco
  */
 public class EventTest {
 
+    /**
+     * Test constructors, getters, setters and equals methods
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
-        testDefaultConstructor();
-        testParameterizedConstructor();
-        testGettersAndSetters();
-        testEqualsMethod();
+        /*
+         * Tests constructors
+         */
+        Event event1 = new Event();
+
+        System.out.println("Event 1: Testing Default Constructor");
+        System.out.println(((event1.getEventID()==0) ? "PASSED":"FAILED") + ": eventId");
+        System.out.println(((event1.getSender()==null) ? "PASSED":"FAILED") + ": sender");
+        System.out.println(((event1.getOpponent()==null) ? "PASSED":"FAILED") + ": opponent");
+        System.out.println(((event1.getStatus()==null) ? "PASSED":"FAILED") + ": status");
+        System.out.println(((event1.getTurn()==null) ? "PASSED":"FAILED") + ": turn");
+        System.out.println(((event1.getMove()==0) ? "PASSED":"FAILED") + ": move");
+
+        Event event2 = new Event(10, "bob", "smith", Event.EventStatus.PLAYING, "bob", 4);
+
+        System.out.println("Event 2: Testing Parameterized Constructor");
+        System.out.println(((event2.getEventID()==10) ? "PASSED":"FAILED") + ": eventId");
+        System.out.println(((event2.getSender().equals("bob")) ? "PASSED":"FAILED") + ": sender");
+        System.out.println(((event2.getOpponent().equals("smith")) ? "PASSED":"FAILED") + ": opponent");
+        System.out.println(((event2.getStatus() == Event.EventStatus.PLAYING) ? "PASSED":"FAILED") + ": status");
+        System.out.println(((event2.getTurn().equals("bob")) ? "PASSED":"FAILED") + ": turn");
+        System.out.println(((event2.getMove()==4) ? "PASSED":"FAILED") + ": move");
+
+        /*
+         * Tests all getters and setters
+         */
+        Event even3 = new Event();
+        even3.setEventID(10);
+        even3.setSender("bob");
+        even3.setOpponent("smith");
+        even3.setStatus(Event.EventStatus.PLAYING);
+        even3.setTurn("bob");
+        even3.setMove(4);
+
+        System.out.println("Event 3: Testing Getters and Setters");
+        System.out.println(((even3.getEventID()==10) ? "PASSED":"FAILED") + ": eventId");
+        System.out.println(((even3.getSender().equals("bob")) ? "PASSED":"FAILED") + ": sender");
+        System.out.println(((even3.getOpponent().equals("smith")) ? "PASSED":"FAILED") + ": opponent");
+        System.out.println(((even3.getStatus() == Event.EventStatus.PLAYING) ? "PASSED":"FAILED") + ": status");
+        System.out.println(((even3.getTurn().equals("bob")) ? "PASSED":"FAILED") + ": turn");
+        System.out.println(((even3.getMove()==4) ? "PASSED":"FAILED") + ": move");
+
+        /*
+         * Tests equals() function
+         */
+        Event event4 = new Event(10, "bob", "smith", Event.EventStatus.PLAYING, "bob", 4);
+        Event event5 = new Event(43, "alan", "lucy", Event.EventStatus.PENDING, null, -1);
+        Event event6 = new Event(10, "bob", "smith", Event.EventStatus.PLAYING, "bob", 4);
+        Object event7 = new Object();
+
+        System.out.println("Event 4, 5, 6, 7: Testing equals() method");
+        System.out.println((event4.equals(event6) ? "PASSED":"FAILED") + ": Event 4 equals() Event 6");
+        System.out.println((!event4.equals(event5) ? "PASSED":"FAILED") + ": Event 4 not equals() Event 5");
+        System.out.println((!event5.equals(event6) ? "PASSED":"FAILED") + ": Event 5 not equals() Event 6");
+        System.out.println((!event4.equals(event7) ? "PASSED":"FAILED") + ": Event 4 not equals() Event 7");
     }
 
-    /**
-     * Tests the default constructor
-     */
-    public static void testDefaultConstructor() {
-        Event event = new Event();
-        System.out.println("Testing Default Constructor:");
-        System.out.println("Event ID: " + event.getEventID());
-        System.out.println("Sender: " + event.getSender());
-        System.out.println("Opponent: " + event.getOpponent());
-        System.out.println("Status: " + event.getStatus());
-        System.out.println("Turn: " + event.getTurn());
-        System.out.println("Move: " + event.getMove());
-    }
-
-    /**
-     * Tests the Parameterized Constructor
-     */
-    public static void testParameterizedConstructor() {
-        Event event = new Event(1, "Sender1", "Opponent1", EventStatus.PENDING, "Turn1", 3);
-        System.out.println("Testing Parameterized Constructor:");
-        System.out.println("Event ID: " + event.getEventID());
-        System.out.println("Sender: " + event.getSender());
-        System.out.println("Opponent: " + event.getOpponent());
-        System.out.println("Status: " + event.getStatus());
-        System.out.println("Turn: " + event.getTurn());
-        System.out.println("Move: " + event.getMove());
-    }
-
-    /**
-     * Tests all the getters and setters
-     */
-    public static void testGettersAndSetters() {
-        Event event = new Event();
-        event.setEventID(2);
-        event.setSender("Sender2");
-        event.setOpponent("Opponent2");
-        event.setStatus(EventStatus.COMPLETED);
-        event.setTurn("Turn2");
-        event.setMove(2);
-
-        System.out.println("Testing Getters and Setters:");
-        System.out.println("Event ID: " + event.getEventID());
-        System.out.println("Sender: " + event.getSender());
-        System.out.println("Opponent: " + event.getOpponent());
-        System.out.println("Status: " + event.getStatus());
-        System.out.println("Turn: " + event.getTurn());
-        System.out.println("Move: " + event.getMove());
-    }
-
-    /**
-     * Tests the equals() method
-     */
-    public static void testEqualsMethod() {
-        Event event1 = new Event(1, "Sender1", "Opponent1", EventStatus.PENDING, "Turn1", 42);
-        Event event2 = new Event(1, "Sender2", "Opponent2", EventStatus.COMPLETED, "Turn2", 7);
-        Event event3 = new Event(3, "Sender3", "Opponent3", EventStatus.ABORTED, "Turn3", 15);
-
-        System.out.println("Testing Equals Method:");
-        System.out.println("Event1 equals Event2: " + event1.equals(event2));
-        System.out.println("Event1 equals Event3: " + event1.equals(event3));
-    }
 }

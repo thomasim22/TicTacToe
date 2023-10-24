@@ -1,57 +1,46 @@
 package test;
+
 import socket.Response;
-import socket.ResponseStatus;
-/**
- * @author  thomasim22
- * @version ResponseTest v1
- */
 
 /**
- * A test class for the Response class.
+ * Test for Response Class
+ *
+ * @author thomasim22
  */
 public class ResponseTest {
 
+    /**
+     * Test constructors, getters and setters methods
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
-        testDefaultConstructor();
-        testParameterizedConstructor();
-        testGettersAndSetters();
+
+        /*
+         * Tests constructors
+         */
+        Response response1 = new Response();
+
+        System.out.println("Response 1: Testing Default Constructor");
+        System.out.println(((response1.getStatus()==null) ? "PASSED":"FAILED") + ": status");
+        System.out.println(((response1.getMessage()==null) ? "PASSED":"FAILED") + ": message");
+
+        Response response2 = new Response(Response.ResponseStatus.SUCCESS, "Invitation Sent");
+
+        System.out.println("Response 2: Testing Default Constructor");
+        System.out.println(((response2.getStatus()==Response.ResponseStatus.SUCCESS) ? "PASSED":"FAILED") + ": status");
+        System.out.println(((response2.getMessage().equals("Invitation Sent")) ? "PASSED":"FAILED") + ": message");
+
+        /*
+         * Tests all getters and setters
+         */
+        Response response3 = new Response();
+        response3.setStatus(Response.ResponseStatus.SUCCESS);
+        response3.setMessage("Invitation Sent");
+
+        System.out.println("Response 3: Testing Default Constructor");
+        System.out.println(((response3.getStatus()==Response.ResponseStatus.SUCCESS) ? "PASSED":"FAILED") + ": status");
+        System.out.println(((response3.getMessage().equals("Invitation Sent")) ? "PASSED":"FAILED") + ": message");
     }
 
-    /**
-     * Method to test the default constructor
-     */
-    public static void testDefaultConstructor() {
-        Response response = new Response();
-        if (response.getStatus() == ResponseStatus.FAILURE && response.getMessage().equals("")) {
-            System.out.println("Default Constructor Test: Passed");
-        } else {
-            System.out.println("Default Constructor Test: Failed");
-        }
-    }
 
-    /**
-     * Method to test the parameterized constructor
-     */
-    public static void testParameterizedConstructor() {
-        Response response = new Response(ResponseStatus.SUCCESS, "Test message");
-        if (response.getStatus() == ResponseStatus.SUCCESS && response.getMessage().equals("Test message")) {
-            System.out.println("Parameterized Constructor Test: Passed");
-        } else {
-            System.out.println("Parameterized Constructor Test: Failed");
-        }
-    }
-
-    /**
-     * Method to test the getters and setters
-     */
-    public static void testGettersAndSetters() {
-        Response response = new Response();
-        response.setStatus(ResponseStatus.SUCCESS);
-        response.setMessage("New message");
-        if (response.getStatus() == ResponseStatus.SUCCESS && response.getMessage().equals("New message")) {
-            System.out.println("Getters and Setters Test: Passed");
-        } else {
-            System.out.println("Getters and Setters Test: Failed");
-        }
-    }
 }

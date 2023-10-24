@@ -1,66 +1,66 @@
 package test;
+
 import model.User;
+
 /**
- * @author  kailisacco
- * @version UserTest v1
+ * Test class for {@link User}
+ *
+ * @author kailisacco
  */
 public class UserTest {
+
+    /**
+     * Test constructors, getters, setters and equals methods
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
-        testDefaultConstructor();
-        testParameterizedConstructor();
-        testGettersAndSetters();
-        testEqualsMethod();
-    }
 
-    /**
-     * Tests the default constructor
-     */
-    private static void testDefaultConstructor() {
-        User user = new User();
-        System.out.println("Testing Default Constructor:");
-        System.out.println("Username: " + user.getUsername().equals(""));
-        System.out.println("Password: " + user.getPassword().equals(""));
-        System.out.println("Display Name: " + user.getDisplayName().equals(""));
-        System.out.println("Online: " + !user.isOnline());
-    }
+        /*
+         * Tests constructors
+         */
+        User user1 = new User();
 
-    /**
-     * Tests the Parameterized Constructor
-     */
-    private static void testParameterizedConstructor() {
-        User user = new User("john_doe", "password123", "John Doe", true);
-        System.out.println("Testing Parameterized Constructor:");
-        System.out.println("Username: " + user.getUsername().equals("john_doe"));
-        System.out.println("Password: " + user.getPassword().equals("password123"));
-        System.out.println("Display Name: " + user.getDisplayName().equals("John Doe"));
-        System.out.println("Online: " + user.isOnline());
-    }
-    /**
-     * Tests all the getters and setters
-     */
-    private static void testGettersAndSetters() {
-        User user = new User();
-        user.setUsername("jon_smith");
-        user.setPassword("newPassword");
-        user.setDisplayName("Jon Smith");
-        user.setOnline(true);
+        System.out.println("Event 1: Testing Default Constructor");
+        System.out.println(((user1.getUsername()==null) ? "PASSED":"FAILED") + ": username");
+        System.out.println(((user1.getPassword()==null) ? "PASSED":"FAILED") + ": password");
+        System.out.println(((user1.getDisplayName()==null) ? "PASSED":"FAILED") + ": displayName");
+        System.out.println(((!user1.isOnline()) ? "PASSED":"FAILED") + ": online");
 
-        System.out.println("Testing Getters and Setters:");
-        System.out.println("Username: " + user.getUsername().equals("alice_smith"));
-        System.out.println("Password: " + user.getPassword().equals("newPassword"));
-        System.out.println("Display Name: " + user.getDisplayName().equals("Alice Smith"));
-        System.out.println("Online: " + user.isOnline());
-    }
-    /**
-     * Tests the equals() method
-     */
-    private static void testEqualsMethod() {
-        User user1 = new User("user1", "password1", "User One", false);
-        User user2 = new User("user2", "password2", "User Two", true);
-        User user3 = new User("user1", "password1", "User One", true);
+        User user2 = new User("bob", "12345", "Bob Jake", true);
 
-        System.out.println("Testing Equals Method:");
-        System.out.println("user1.equals(user3): " + user1.equals(user3));
-        System.out.println("user1.equals(user2): " + user1.equals(user2));
+        System.out.println("Event 2: Testing Parameterized Constructor");
+        System.out.println(((user2.getUsername().equals("bob")) ? "PASSED":"FAILED") + ": username");
+        System.out.println(((user2.getPassword().equals("12345")) ? "PASSED":"FAILED") + ": password");
+        System.out.println(((user2.getDisplayName().equals("Bob Jake")) ? "PASSED":"FAILED") + ": displayName");
+        System.out.println(((user2.isOnline()) ? "PASSED":"FAILED") + ": online");
+
+        /*
+         * Tests all getters and setters
+         */
+        User user3 = new User();
+        user3.setUsername("bob");
+        user3.setPassword("12345");
+        user3.setDisplayName("Bob Jake");
+        user3.setOnline(true);
+
+        System.out.println("Event 3: Testing Getters and Setters");
+        System.out.println(((user3.getUsername().equals("bob")) ? "PASSED":"FAILED") + ": username");
+        System.out.println(((user3.getPassword().equals("12345")) ? "PASSED":"FAILED") + ": password");
+        System.out.println(((user3.getDisplayName().equals("Bob Jake")) ? "PASSED":"FAILED") + ": displayName");
+        System.out.println(((user3.isOnline()) ? "PASSED":"FAILED") + ": online");
+
+        /*
+         * Tests equals() function
+         */
+        User user4 = new User("bob", "12345", "Bob Jake", true);
+        User user5 = new User("alan", "secure", "Alan Brown", false);
+        User user6 = new User("bob", "12345", "Bob Jake", true);
+        Object user7 = new Object();
+
+        System.out.println("User 4, 5, 6, 7: Testing equals() method");
+        System.out.println((user4.equals(user6) ? "PASSED":"FAILED") + ": User 4 equals() User 6");
+        System.out.println((!user4.equals(user5) ? "PASSED":"FAILED") + ": User 4 not equals() User 5");
+        System.out.println((!user5.equals(user6) ? "PASSED":"FAILED") + ": User 5 not equals() User 6");
+        System.out.println((!user4.equals(user7) ? "PASSED":"FAILED") + ": User 4 not equals() User 7");
     }
 }

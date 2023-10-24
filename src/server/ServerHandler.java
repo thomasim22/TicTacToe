@@ -12,7 +12,7 @@ public class ServerHandler extends Thread{
     public void run(){
     }
 
-    public void close(){
+    public void closeSocket(){
     }
 
 }

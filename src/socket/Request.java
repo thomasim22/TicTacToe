@@ -1,9 +1,20 @@
 package socket;
+import model.*;
 /**
  * @author  thomasim22
  * @version Request v1
  */
 public class Request {
+
+    /**
+     * An enumeration of the different types
+     */
+    public enum RequestType{
+        LOGIN, REGISTER, UPDATE_PAIRING, SEND_INVITATION, ACCEPT_INVITATION,
+        DECLINE_INVITATION, ACKNOWLEDGE_RESPONSE, REQUEST_MOVE, SEND_MOVE,
+        ABORT_GAME, COMPLETE_GAME
+    }
+
 
     /**
      * @param type is a type of client request
@@ -46,8 +57,6 @@ public class Request {
      * Default constructor for the class
      */
     public Request(){
-        this.type = RequestType.REGISTER;
-        this.data = "";
     }
 
     /**
