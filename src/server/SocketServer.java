@@ -49,18 +49,50 @@ public class SocketServer {
         PORT = port;
     }
 
-    /**
+/**
+     * author: @kailisacco
      * Sets up the socket server
      */
-    private void setup(){
+    private void setup() {
+        try {
+            ServerSocket sskt = new ServerSocket(PORT);
+            Socket clientSkt = sskt.accept();
+            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(clientSkt.getInputStream()));
+            PrintWriter outToClient = new PrintWriter(clientSkt.getOutputStream(), true); // auto flush
 
+            outToClient.println("From Server: Launched setup() from SocketServer.");
+
+            inFromClient.close();
+            outToClient.close();
+            clientSkt.close();
+            sskt.close();
+        } catch (IOException ioe) {
+            System.err.println("IO Exception in creating ServerSocket or closing ServerSocket");
+            ioe.printStackTrace();
+        }
+        System.out.println("Connection to port: " + PORT);
     }
 
     /**
+     * author @kailisacco
      * Starts accepting clinet requests
      */
-    private void startAcceptingRequest(){
+    private void startAcceptingRequest () {
+        try {
+            ServerSocket serverSocket = new ServerSocket(PORT);
+            for (int i = 0; i < 2; i++) {
+                Socket clientSocket = serverSocket.accept();
+                String username = "User" + i;
 
-    }
+                ServerHandler handlerThread = new ServerHandler(clientSocket, username);
+                handlerThread.start();
+                System.out.println("Accepted connection from " + username);
+            }
+            serverSocket.close();
+        }catch(IOException ioe){
+            System.err.println("IO Exception in creating ServerSocket or closing ServerSocket");
+        }
+
+        }
 
 }
