@@ -3,12 +3,21 @@ package server;
  * @author  thomasim22
  * @version SocketServer v1
  */
+import java.net.ServerSocket;
+import java.net.InetAddress;
+import java.io.IOException;
+import java.net.Socket;
 public class SocketServer {
 
     /**
      * @param PORT is an integer representing the last move made by the current player's opponent
      */
-    private final int PORT;
+    int PORT;
+
+    /**
+     * @param serverSocket listens for client connections
+     */
+    ServerSocket serverSocket;
 
     /**
      * The static main method that instantiates the classes setup() and startAcceptingRequest()
@@ -55,40 +64,35 @@ public class SocketServer {
      */
     private void setup() {
         try {
-            ServerSocket sskt = new ServerSocket(PORT);
-            Socket clientSkt = sskt.accept();
-            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(clientSkt.getInputStream()));
-            PrintWriter outToClient = new PrintWriter(clientSkt.getOutputStream(), true); // auto flush
+            serverSocket  = new ServerSocket(PORT);
+             String hostname = InetAddress.getLocalHost().getHostName();
+            String hostAddress = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Server started on:");
+            System.out.println("Hostname: " + hostname);
+            System.out.println("Host Address: " + hostAddress);
+            System.out.println("Port: " + PORT);
 
-            outToClient.println("From Server: Launched setup() from SocketServer.");
-
-            inFromClient.close();
-            outToClient.close();
-            clientSkt.close();
-            sskt.close();
         } catch (IOException ioe) {
             System.err.println("IO Exception in creating ServerSocket or closing ServerSocket");
-            ioe.printStackTrace();
         }
         System.out.println("Connection to port: " + PORT);
     }
 
     /**
      * author @kailisacco
-     * Starts accepting clinet requests
+     * Starts accepting client requests
      */
     private void startAcceptingRequest () {
+        int maximumClient = 2;
+        int clientCount = 0;
         try {
-            ServerSocket serverSocket = new ServerSocket(PORT);
-            for (int i = 0; i < 2; i++) {
-                Socket clientSocket = serverSocket.accept();
-                String username = "User" + i;
+            Socket clientSocket = serverSocket.accept();
+            String username = "Client" + (clientCount + 1);
+            ServerHandler handler = new ServerHandler(clientSocket, username);
 
-                ServerHandler handlerThread = new ServerHandler(clientSocket, username);
-                handlerThread.start();
-                System.out.println("Accepted connection from " + username);
-            }
-            serverSocket.close();
+            handler.start();
+            System.out.println(username + " connected from: " + clientSocket.getInetAddress().getHostAddress());
+            clientCount++;
         }catch(IOException ioe){
             System.err.println("IO Exception in creating ServerSocket or closing ServerSocket");
         }
