@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import server.DatabaseHelper;
 /**
  * A class that helps SocketServer handle individual communications from users.
  */
@@ -52,23 +52,24 @@ public class ServerHandler extends Thread{
      */
     private Gson gson;
 
-    /**
-     * Vairbale to store the game move and the player who made the move
-     */
-    private static Event gameEvent = new Event(1, null, null, null, null, -1);
+    private int currentEventId;
+    private DatabaseHelper dbHelper;
 
     /**
      * ServerHandler constructor that accepts a Socket and username
      */
-    public ServerHandler(Socket socket, String username) throws IOException{
+    public ServerHandler(Socket socket, DatabaseHelper dbHelper) throws IOException{
         LOGGER = Logger.getLogger(ServerHandler.class.getName());
-
+        this.dbHelper = dbHelper;
         this.socket = socket;
-        this.currentUsername = username;
         // Initialize the Gson object with a configuration that allows serializing null values
         this.gson = new GsonBuilder().serializeNulls().create();
         this.dataInput = new DataInputStream(socket.getInputStream());
         this.dataOutput = new DataOutputStream(socket.getOutputStream());
+    }
+
+    public void setUsername(String username){
+        this.currentUsername = username;
     }
 
     /**
@@ -123,10 +124,13 @@ public class ServerHandler extends Thread{
         if(move < 0 || move > 8){ // Check for valid move
             return new Response(Response.ResponseStatus.FAILURE, "Invalid Move");
         }
+        Event gameEvent = dbHelper.getEvent(currentEventId);
+
         if(gameEvent.getTurn() == null || !gameEvent.getTurn().equals(currentUsername)) {
             // Save the move in the server and return a standard Response
             gameEvent.setMove(move);
             gameEvent.setTurn(currentUsername);
+            dbHelper.updateEvent(gameEvent);
             return new Response(Response.ResponseStatus.SUCCESS, "Move Added");
         }else{
             return new Response(Response.ResponseStatus.FAILURE, "Not your turn to move");
@@ -141,12 +145,19 @@ public class ServerHandler extends Thread{
         GamingResponse response = new GamingResponse();
         response.setStatus(Response.ResponseStatus.SUCCESS);
 
-        if (gameEvent.getMove() != -1 && !gameEvent.getTurn().equals(currentUsername)){
-            response.setMove(gameEvent.getMove());
-            gameEvent.setMove(-1);
-            gameEvent.setTurn(null);
-        } else{
-            response.setMove(-1);
+        Event gameEvent = dbHelper.getEvent(currentEventId);
+        if (gameEvent != null) {
+            if (gameEvent.getMove() != -1 && !gameEvent.getTurn().equals(currentUsername)) {
+                response.setMove(gameEvent.getMove());
+                gameEvent.setMove(-1);
+                gameEvent.setTurn(null);
+                dbHelper.updateEvent(gameEvent);
+            } else {
+                response.setMove(-1);
+            }
+        }else {
+            response.setStatus(Response.ResponseStatus.FAILURE);
+            response.setMessage("Event not found");
         }
         return response;
     }

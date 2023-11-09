@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import server.ServerHandler;
+
 public class SocketServer {
 
     /**
@@ -92,17 +94,16 @@ public class SocketServer {
      */
     private void startAcceptingRequest() {
         try {
-            // Accept socket connection from the first player and create a new handler to handle all connections
-            Socket socketPlayer1 = serverSocket.accept();
-            LOGGER.log(Level.INFO, "New Socket Client Connect with IP: " + socketPlayer1.getRemoteSocketAddress());
-            ServerHandler serverHandlerPlayer1 = new ServerHandler(socketPlayer1, "Bob");
-            serverHandlerPlayer1.start();
+            while (true) {
+                // Accept socket connection and create a new handler for each connection
+                Socket socket = serverSocket.accept();
+                LOGGER.log(Level.INFO, "New Socket Client Connect with IP: " + socket.getRemoteSocketAddress());
 
-            // Accept socket connection from the second player and create a new handler to handle all connections
-            Socket socketPlayer2 = serverSocket.accept();
-            LOGGER.log(Level.INFO, "New Socket Client Connect with IP: " + socketPlayer2.getRemoteSocketAddress());
-            ServerHandler serverHandlerPlayer2 = new ServerHandler(socketPlayer2, "Smith");
-            serverHandlerPlayer2.start();
+                // Create a new instance of ServerHandler for each connection
+                ServerHandler serverHandler = new ServerHandler(socket, dbHelper);
+                serverHandler.setUsername("Player" + System.currentTimeMillis());
+                serverHandler.start();
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Server Error: Client Connection Failed", e);
         } catch (Exception e) {
