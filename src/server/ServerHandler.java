@@ -11,6 +11,8 @@ import model.Event;
 import socket.GamingResponse;
 import socket.Request;
 import socket.Response;
+import model.User;
+import socket.PairingResponse;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -112,9 +114,221 @@ public class ServerHandler extends Thread{
             case SEND_MOVE:
                 int move = gson.fromJson(request.getData(), Integer.class);
                 return handleSendMove(move);
+            case LOGIN:
+                return handleLogin(request);
+            case REGISTER:
+                return handleRegister(request);
+            case UPDATE_PAIRING:
+                return handleUpdatePairing();
+            case SEND_INVITATION:
+                String opponent = gson.fromJson(request.getData(), String.class);
+                return handleSendInvitation(opponent);
+            case ACCEPT_INVITATION:
+                int eventId = gson.fromJson(request.getData(), Integer.class);
+                return handleAcceptInvitation(eventId);
+            case DECLINE_INVITATION:
+                int eventId = gson.fromJson(request.getData(), Integer.class);
+                return handleDeclineInvitation(eventId);
+            case ACKNOWLEDGE_RESPONSE:
+                int eventId = gson.fromJson(request.getData(), Integer.class);
+                return handleAcknowledgeResponse(eventId);
+            case ABORT_GAME:
+                return handleAbortGame();
+            case COMPLETE_GAME:
+                return handleCompleteGame();
             default:
                 return new Response(Response.ResponseStatus.FAILURE, "Invalid Request");
         }
+    }
+
+    /**
+     * Handles the Complete game request
+     */
+    private Response handleCompleteGame(){
+        Event gameEvent = dbHelper.getEvent(currentEventId);
+
+        if(gameEvent == null || gameEvent.getStatus() != Event.Status.PLAYING){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid Complete game request");
+        }
+
+        gameEvent.setStatus(Event.Status.COMPELTED);
+        dbHelper.updateEvent(gameEvent);
+        currentEventId = -1;
+
+        return new Response(Response.ResponseStatus.SUCCESS, "Game completed successfully");
+    }
+
+    /**
+     * Handles the Abort game request
+     */
+    private Response handleAbortGame(){
+        Event gameEvent = dbHelper.getEvent(currentEventId);
+
+        if(gameEvent == null || gameEvent.getStatus() != Event.Status.PLAYING){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid Abort Game request");
+        }
+
+        gameEvent.setStatus(Event.Status.ABORTED);
+        dbHelper.updateEvent(gameEvent);
+        currentEventId = -1;
+
+        return new Response(Response.ResponseStatus.SUCCESS,"Game aborted successfully");
+    }
+
+
+
+    /**
+     * Handles the Acknowledge Response request
+     */
+    private Response handleAcknowledgeResponse(int eventId){
+        Event responseEvent = dbHelper.getEvent(eventId);
+
+        if(responseEvent == null || !responseEvent.getSender().equals(currentUsername)){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid Acknowledgement");
+        }
+
+        if(responseEvent.getStatus() == Event.Statuus.DECLINED){
+            responseEvent.setStatus(Event.Status.ABORTED);
+        } else if (responseEvent.getStatus() == Event.Status.ACCEPTED){
+            currentEventId = eventId;
+            dbHelper.abortAllUserEvents(currentUsername);
+        }
+
+        dbHelper.updateEvent(responseEvent);
+
+        return new Response(Response.ResponseStatus.SUCCESS, "Acknowledge Response handled successfully");
+    }
+
+    /**
+     * Handles the Decline Invitation request
+     */
+    private Response handleDeclineInvitation(int eventId){
+        Event invitationEvent = dbHelper.getEvent(eventId);
+
+        if(invitationEvent == null || invitationEvent.getStatus() != Event.Status.PENDING || !invitationEvent.getOpponent().equals(currentUsername)){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid Invitation");
+        }
+
+        invitationEvent.setStatus(Event.Status.DECLINED);
+
+        dbHelper.updateEvent(invitationEvent);
+
+        return new Response(Response.ResponseStatus.SUCCESS, "Invitation declined successfully");
+    }
+
+    /**
+     * Handles the Accept Invitation request
+     */
+    private Response handleAcceptInvitation(int eventId){
+
+        Event invitationEvent = dbHelper.getEvent(eventId);
+
+        if(invitationEvent == null || invitationEvent.getStatus() != Event.Status.PENDING || !invitationEvent.getOpponent().equals(currentUsername)){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid invitation");
+        }
+        invitationEvent.setStatus(Event.Status.ACCEPTED);
+
+        dbHelper.abortAllUserEvents(currentUsername);
+
+        dbHelper.updateEvent(invitationEvent);
+
+        currentEventId = eventId;
+
+        return new Response(Response.ResponseStatus.SUCCESS, "Invitation accepted");
+    }
+
+    private Response handleSendInvitation(String opponent){
+
+        if(currentUsername == null || currentUsername.isEmpty()){
+            return new Response(Response.ResponseStatus.FAILURE, "User not logged in");
+        }
+
+        if(!dbHelper.isUserAvailable(opponent)){
+            return new Response(Response.ResponseStatus.FAILURE, "Opponent is not available");
+        }
+
+        Event invitationEvent = new Event();
+        invitationEvent.setSender(currentUsername);
+        invitationEvent.setOpponent(opponent);
+        invitationEvent.setStatus(Event.Status.PENDING);
+        invitationEvent.setMove(-1);
+
+        dbHelper.createEvent(invitationEvent);
+
+        return new Response(Response.ResponseStatus.SUCCESS, "Invitation sent successfully");
+    }
+
+    /**
+     * Handles the Update pairing request
+     */
+    private PairingResponse handleUpdatePairing(){
+
+        if(currentUsername == null || currentUsername.isEmpty()){
+            return new PairingResponse(PairingResponse.PairingResponseStatus.FAILURE, "User not logged in", null, null);
+        }
+
+        List<User> availableUsers = dbHelper.getAvailableUsers();
+        Map<String, Boolean> userInvitations = dbHelper.getUserInvitations(currentUsername);
+        Map<String, Boolean> userInvitationResponses = dbHelper.getUserInvitationResponse(currentUsername);
+
+        PairingResponse pairingResponse = new PairingResponse(PairingResponse.PairingResponseStatus.SUCCESS, "Update pairing successful", availableUsers, userInvitations, userInvitationResponses);
+
+        return pairingResponse;
+    }
+
+    /**
+     * Handles the Login request
+     */
+    private Response handleLogin(Request request){
+        try{
+            User loginUser = gson.fromJson(request.getData(), User.class);
+
+            User existingUser = dbHelper.getUser(loginUser.getUsername());
+
+            if(existingUser == null){
+                return new Response(Response.ResponseStatus.FAILURE, "User not found");
+            }
+
+            if(!existingUser.getPassword().equals(loginUser.getPassword())){
+                return new Response(Response.ResponseStatus.FAILURE, "Incorrect Password");
+            }
+
+            currentUsername = existingUser.getUsername();
+            existingUser.setOnline(true);
+
+            dbHelper.updateUser(existingUser);
+            return new Response(Response.ResponseStatus.SUCCESS, "Login successful");
+        } catch(JsonSyntaxException e){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid login");
+        }
+    }
+
+    /**
+     * Handles the Register request
+     */
+    private Response handleRegister(Request request){
+        try{
+            User newUser = gson.fromJson(request.getData(), User.class);
+
+            if(isUsernameExists(newUser.getUsername())){
+                return new Response(Response.ResponseStatus.FAILURE, "Username already exists");
+            }
+
+            createUser(newUser);
+
+            return new Response(Response.ResponseStatus.SUCCESS, "User registered successfully");
+        } catch (JsonSyntaxException e){
+            return new Response(Response.ResponseStatus.FAILURE, "Invalid username");
+        }
+    }
+
+    private boolean isUsernameExists(String username){
+
+        return false;
+    }
+
+    private void createUser(User user){
+
     }
 
     /**
@@ -146,7 +360,18 @@ public class ServerHandler extends Thread{
         response.setStatus(Response.ResponseStatus.SUCCESS);
 
         Event gameEvent = dbHelper.getEvent(currentEventId);
+
         if (gameEvent != null) {
+            if(gameEvent.getStatus() == Event.Status.ABORTED){
+                response.setActive(false);
+                response.setMessage("Opponent Abort");
+            }else if(gameEvent.getStatus() == Event.Status.COMPLETED){
+                response.setActive(false);
+                response.setMessage("Opponent denied Play Again");
+            } else{
+                response.setActive(true);
+            }
+
             if (gameEvent.getMove() != -1 && !gameEvent.getTurn().equals(currentUsername)) {
                 response.setMove(gameEvent.getMove());
                 gameEvent.setMove(-1);
@@ -171,6 +396,16 @@ public class ServerHandler extends Thread{
             socket.close();
             dataInput.close();
             dataOutput.close();
+
+            if(currentUsername != null){
+                User user = dbHelper.getUser(currentUsername);
+
+                user.setOnline(false);
+
+                dbHelper.updateUser(user);
+
+                dbHelper.abortAllUserEvents(currentUsername);
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE,"Server Info: Unable to close socket", e);
         }
