@@ -13,6 +13,8 @@ import socket.Request;
 import socket.Response;
 import model.User;
 import socket.PairingResponse;
+import java.util.List;
+import java.util.Map;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
