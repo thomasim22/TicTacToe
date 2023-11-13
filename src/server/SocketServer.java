@@ -100,7 +100,7 @@ public class SocketServer {
                 LOGGER.log(Level.INFO, "New Socket Client Connect with IP: " + socket.getRemoteSocketAddress());
 
                 // Create a new instance of ServerHandler for each connection
-                ServerHandler serverHandler = new ServerHandler(socket, dbHelper);
+                ServerHandler serverHandler = new ServerHandler(socket);
                 serverHandler.setUsername("Player" + System.currentTimeMillis());
                 serverHandler.start();
             }

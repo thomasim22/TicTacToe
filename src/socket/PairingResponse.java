@@ -13,7 +13,7 @@ public class PairingResponse extends Response {
     private Event invitationResponse;
 
     public UpdatePairingResponse(){
-        super("ABORTED", "defualt message");
+        super(ResponseStatus.SUCCESS, "default message");
     }
     public UpdatePairingResponse(String status, String message, List<User> availableUsers, Event invitation, Event invitationResponse){
         super(status, message);
