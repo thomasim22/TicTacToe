@@ -1,5 +1,10 @@
 package server;
 
+/**
+ * @author  thomasim22 declaration/implementation
+ * @version SocketServer v2
+ */
+
 import java.net.ServerSocket;
 import java.net.InetAddress;
 import java.io.IOException;
@@ -9,8 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The `SocketServer` class represents a socket server controller. It creates the socket server
- * and accepts client connections.
+ *  SocketServer creates the socket server
  */
 public class SocketServer {
     /**
@@ -31,8 +35,6 @@ public class SocketServer {
     /**
      * The main function of the application
      * It instantiates the class, sets up the server and start accepting client's request
-     *
-     * @param args command line arguments
      */
     public static void main(String[] args) {
         try {
@@ -46,18 +48,13 @@ public class SocketServer {
 
     /**
      * Default constructor with default port = 5000
-     *
-     * @throws Exception when invalid port is provided
      */
     public SocketServer() throws Exception {
         this(6000);
     }
 
     /**
-     * Constructor that set the {@link #PORT} attribute
-     *
-     * @param port The socket server's port number
-     * @throws Exception when invalid port is provided
+     * Constructor that sets the PORT attribute
      */
     public SocketServer(int port) throws Exception {
         if (port < 0) {
@@ -125,7 +122,6 @@ public class SocketServer {
 
     /**
      * Getter for PORT attribute
-     *
      * @return PORT
      */
     public int getPORT() {
