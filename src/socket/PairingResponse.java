@@ -1,27 +1,46 @@
 package socket;
-import java.util.List;
+
 import model.Event;
-import socket.GamingResponse;
-import socket.Request;
-import socket.Response;
 import model.User;
 
+import java.util.List;
+
+/**
+ * PairingResponse class for handling updates related to game pairing.
+ */
 public class PairingResponse extends Response {
-    private List<User> availableUsers;
-    private Event invitation;
 
-    private Event invitationResponse;
+    // Class attributes
+    private List<User> availableUsers; // Players available for game invitations
+    public Event invitation; // Invitation from another player
+    public Event invitationResponse; // Response to an invitation sent by the user
 
-    public UpdatePairingResponse(){
-        super(ResponseStatus.SUCCESS, "default message");
+    /**
+     * Default constructor for PairingResponse.
+     * Calls the constructor of the superclass Response.
+     */
+    public PairingResponse() {
+        super();
     }
-    public UpdatePairingResponse(String status, String message, List<User> availableUsers, Event invitation, Event invitationResponse){
+
+    /**
+     * Constructor that sets all attributes of the class.
+     * Calls the constructor of the superclass Response.
+     *
+     * @param status         The status of the response.
+     * @param message        The message accompanying the response.
+     * @param availableUsers The list of users available for invitations.
+     * @param invitation     The game invitation event.
+     * @param invitationResponse The response to the game invitation.
+     */
+    public PairingResponse(ResponseStatus status, String message, List<User> availableUsers, Event invitation, Event invitationResponse) {
         super(status, message);
         this.availableUsers = availableUsers;
         this.invitation = invitation;
         this.invitationResponse = invitationResponse;
     }
 
+    // Getters and setters
     public List<User> getAvailableUsers() {
         return availableUsers;
     }
@@ -45,5 +64,4 @@ public class PairingResponse extends Response {
     public void setInvitationResponse(Event invitationResponse) {
         this.invitationResponse = invitationResponse;
     }
-
 }
