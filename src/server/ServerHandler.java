@@ -207,12 +207,24 @@ public class ServerHandler extends Thread {
         response.setStatus(Response.ResponseStatus.SUCCESS);
         Event event = databaseHelper.getEvent(currentEventId);
 
-        if (event.getMove() != -1 && !event.getTurn().equals(currentUsername)){
-            response.setMove(event.getMove());
-            event.setMove(-1);
-            event.setTurn(null);
+        if(event.getStatus() == Event.EventStatus.ABORTED){
+            response.setStatus(Response.ResponseStatus.FAILURE);
+            response.setMessage("Opponent Abort");
+            response.setActive(false);
+        }else if (event.getStatus() == Event.EventStatus.COMPLETED){
+            response.setStatus(Response.ResponseStatus.FAILURE);
+            response.setMessage("Opponent Deny Play Again");
+            response.setActive(false);
         } else {
-            response.setMove(-1);
+            response.setStatus(Response.ResponseStatus.SUCCESS);
+            if (event.getMove() != -1 && !event.getTurn().equals(currentUsername)){
+                response.setMove(event.getMove());
+                event.setMove(-1);
+                event.setTurn(null);
+            } else {
+                response.setMove(-1);
+            }
+            response.setActive(true);
         }
         return response;
     }

@@ -50,7 +50,7 @@ public class SocketServer {
      * Default constructor with default port = 5000
      */
     public SocketServer() throws Exception {
-        this(6000);
+        this(5000);
     }
 
     /**
